@@ -1,0 +1,83 @@
+#:kivy 2.3.0
+WindowManager:
+    FirstWindow:
+    SecondWindow:
+
+<FirstWindow>:
+    name: "first"
+
+    BoxLayout:
+        orientation: "vertical"
+        size: root.width, root.height
+
+        Label:
+            text: "Ебать мой лысый череп!"
+            font_size: 30
+        Button:
+            text: "Начать игру"
+            font_size: 30
+            on_release: app.root.current = "second"
+
+<Bullet>:
+    size: 10, 10
+    canvas:
+        Ellipse:
+            pos: self.pos
+            size: self.size
+
+
+<Obstacle>:
+    size: 100, 200
+    canvas:
+        Rectangle:
+            pos: self.pos
+            size: self.size
+            source: 'stone_texture.png'
+            
+
+<SecondWindow>:
+    name: "second"
+
+    ball: pong_ball
+
+    Bullet:
+        id: pong_ball
+
+    Button:
+        id: start_button
+        text: 'Start'
+        pos: self.pos
+        on_release: root.startGame()
+        on_press: root.addObstacles(pos = (800, 500), object_id = 1, n_of_obstacles_x = 10, n_of_obstacles_y = 30)
+        center_x: root.width / 2
+        center_y: root.height / 2
+
+    Button:
+        id: change_weapon_laser
+        size: 50, 50
+        text: "Laser"
+        on_release: root.change_weapon("laser")
+        center_x: 10 + self.width
+        center_y: root.height - 10 - self.height
+
+    Button:
+        id: change_weapon_bullet
+        size: 50, 50
+        text: "Bullet"
+        on_release: root.change_weapon("bullet")
+        center_x: 10 + 2 * self.width
+        center_y: root.height - 10 - self.height
+
+    Button:
+        id: change_weapon_bullet
+        size: 50, 50
+        text: "Bomb"
+        on_release: root.change_weapon("bomb")
+        center_x: 10 + 3 * self.width
+        center_y: root.height - 10 - self.height
+
+    Label:
+        id: score_label
+        size: 50, 50
+        center_x: 10 + 5 * self.width
+        center_y: root.height - 10 - self.height
